@@ -4,6 +4,8 @@ import os
 import json
 # shutil for file renaming
 import shutil
+import time
+
 # import flickrapi
 # `easy_install flickrapi` or `pip install flickrapi`
 from openphoto import OpenPhoto
@@ -32,6 +34,7 @@ def main():
     current = 1
     processed = 0
     errored = 0
+    start_time = time.time()
     print "Found a total of %d files to process" % total
     for i in files:
       print "Processing %d of %d %s ..." % (current, total, i),
@@ -52,8 +55,13 @@ def main():
         errored = errored + 1
         shutil.move(infile, "errored/%s" % i)
 
+    end_time = time.time()
+    total_time = (end_time - start_time) / 60.0
+    photos_minute = int(total / total_time)
+
     if total > 0:
       print "Results. Processed: %d. Errored: %d." % (processed, errored)
+      print "Imported %d photos at %d photos/minute." % (total, photos_minute)
   
 # create a directory only if it doesn't already exist
 def createDirectorySafe( name ):
