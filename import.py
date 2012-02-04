@@ -63,14 +63,14 @@ if __name__ == '__main__':
   import argparse
 
   parser = argparse.ArgumentParser(description='Import photos into an OpenPhoto instance')
-  parser.add_argument('--endpoint', default='openphoto.com:80', help='default: %(default)s')
+  parser.add_argument('--host', required=True)
   parser.add_argument('--consumer-key', required=True)
   parser.add_argument('--consumer-secret', required=True)
   parser.add_argument('--token', required=True)
   parser.add_argument('--token-secret', required=True)
   config = parser.parse_args()
 
-  client = OpenPhoto(config.endpoint, config.consumer_key, config.consumer_secret, config.token, config.token_secret)
+  client = OpenPhoto(config.host, config.consumer_key, config.consumer_secret, config.token, config.token_secret)
 
   # check if a processed and errored directories exist else create them
   createDirectorySafe('processed')
