@@ -16,20 +16,8 @@ from os.path import join, getsize
 
 
 # main program
-def main():
+def import_into_openphoto(client):
 
-  print "Enter your OpenPhoto host: ",
-  host = raw_input()
-  print "Enter your consumer key: ",
-  consumerKey = raw_input()
-  print "Enter your consumer secret: ",
-  consumerSecret = raw_input()
-  print "Enter your token: ",
-  token = raw_input()
-  print "Enter your token secret: ",
-  tokenSecret = raw_input()
-
-  client = OpenPhoto(host, consumerKey, consumerSecret, token, tokenSecret)
 
   for root, dirs, files in os.walk('fetched/'):
     total = len(files)
@@ -70,7 +58,22 @@ def createDirectorySafe( name ):
   if not os.path.exists(name):
     os.makedirs(name)
 
-# check if a processed and errored directories exist else create them
-createDirectorySafe('processed')
-createDirectorySafe('errored')
-main()
+
+if __name__ == '__main__':
+  import argparse
+
+  parser = argparse.ArgumentParser(description='Import photos into an OpenPhoto instance')
+  parser.add_argument('--endpoint', default='openphoto.com:80', help='default: %(default)s')
+  parser.add_argument('--consumer-key', required=True)
+  parser.add_argument('--consumer-secret', required=True)
+  parser.add_argument('--token', required=True)
+  parser.add_argument('--token-secret', required=True)
+  config = parser.parse_args()
+
+  client = OpenPhoto(config.endpoint, config.consumer_key, config.consumer_secret, config.token, config.token_secret)
+
+  # check if a processed and errored directories exist else create them
+  createDirectorySafe('processed')
+  createDirectorySafe('errored')
+
+  import_into_openphoto(client)
