@@ -41,7 +41,7 @@ def import_into_openphoto(client):
         processed = processed + 1
         shutil.move(infile, "processed/%s" % i)
       else:
-        print "FAILED"
+        print "FAILED: %d - %s" % (result['code'], result['message'])
         errored = errored + 1
         shutil.move(infile, "errored/%s" % i)
 
