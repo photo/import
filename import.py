@@ -6,6 +6,7 @@ import os
 import json
 # shutil for file renaming
 import shutil
+import sys
 import time
 
 # import flickrapi
@@ -28,6 +29,7 @@ def import_into_openphoto(client):
     print "Found a total of %d files to process" % total
     for i in files:
       print "Processing %d of %d %s ..." % (current, total, i),
+      sys.stdout.flush()
       current = current + 1
       infile = "fetched/%s" % i
       f = open(infile, 'r')
@@ -44,6 +46,7 @@ def import_into_openphoto(client):
         print "FAILED: %d - %s" % (result['code'], result['message'])
         errored = errored + 1
         shutil.move(infile, "errored/%s" % i)
+      sys.stdout.flush()
 
     end_time = time.time()
     total_time = (end_time - start_time) / 60.0
