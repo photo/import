@@ -48,13 +48,15 @@ https://raw.github.com/openphoto/import/master/import.py
 <a name="running"></a>
 ### Running the script
 
-Start a terminal and enter the following.
+Start a terminal and enter the following. 
 
     cd import
     # assuming you ran the export script from flickr copy the fetched files into this repository
     cp -R ../export-flickr/fetched ./
+    # You can follow these instructions to get your consumer-key, secret, etc: https://github.com/openphoto/openphoto-python#credentials
     python import.py --host=username.openphoto.me --consumer-key=****** --consumer-secret=****** --token=****** --token-secret=******
     
+
 Now the script will start processing your files.
     
     Found a total of 6 files to process
