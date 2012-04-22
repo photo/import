@@ -68,6 +68,10 @@ Now the script will start processing your files.
 
 The last line shows how many were processed and how many errors there were. If you quit the script while it's running you can simply rerun the `python import.py` command again and it will resume where it left off.
 
+The processed files will be moved from `fetched/` to `processed/` unless
+there's an error, and in that case, they will endup in `errored/`. In
+case you try to import a duplicate, the file will instead be moved in `duplicates/`.
+
 ### YAY
 
 You can go to your OpenPhoto site and see all of your Flickr photos with tags, title and description all in tact.

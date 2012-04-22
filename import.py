@@ -35,17 +35,25 @@ def import_into_openphoto(client):
       f = open(infile, 'r')
       json_str = f.read()
       f.close()
+
+      shutil.move(infile, "errored/%s" % i)
+
       params = json.loads(json_str)
       resp = client.post('/photo/upload.json', params)
       result = json.loads(resp)
       if result['code'] == 201:
         print "OK"
         processed = processed + 1
-        shutil.move(infile, "processed/%s" % i)
+        shutil.move("errored/%s" % i, "processed/%s" % i)
       else:
-        print "FAILED: %d - %s" % (result['code'], result['message'])
+        code = result['code']
+        message = result['message']
+        print "FAILED: %d - %s" % (code, message)
+        if code == 409 :
+          shutil.move("errored/%s" % i, "duplicates/%s" % i)
+        else:
+          print params
         errored = errored + 1
-        shutil.move(infile, "errored/%s" % i)
       sys.stdout.flush()
 
     end_time = time.time()
@@ -78,5 +86,6 @@ if __name__ == '__main__':
   # check if a processed and errored directories exist else create them
   createDirectorySafe('processed')
   createDirectorySafe('errored')
+  createDirectorySafe('duplicates')
 
   import_into_openphoto(client)
