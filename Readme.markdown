@@ -7,21 +7,21 @@ Open Photo API / Import companion for export- tools
 <a name="overview"></a>
 ### Overview
 
-This tool processes the files generated from the `export-*` tools such as `export-flickr` ([repository on GitHub](https://github.com/openphoto/export-flickr)).
+This tool processes the files generated from the `export-*` tools such as `export-flickr` ([repository on GitHub](https://github.com/photo/export-flickr)).
 
 <a name="setup"></a>
 ### Running an export tool
 
 Before you run an import you'll have to first run an export. If you haven't done this already pick the appropriate one below.
 
-* https://github.com/openphoto/export-flickr
+* https://github.com/photo/export-flickr
 
 <a name="dependencies"></a>
 ### Getting dependencies
 
-The only dependency you need the `openphoto` module ([repository on Github](https://github.com/openphoto/openphoto-python)).
+The only dependency you need the `openphoto` module ([repository on Github](https://github.com/photo/openphoto-python)).
 
-    git clone git://github.com/openphoto/openphoto-python.git
+    git clone git://github.com/photo/openphoto-python.git
     cd openphoto-python
     sudo python setup.py install
     # you can leave this directory now that it's been installed
@@ -32,18 +32,18 @@ The only dependency you need the `openphoto` module ([repository on Github](http
 
 #### Using git
 
-    git clone git@github.com:openphoto/import.git
+    git clone git@github.com:photo/import.git
 
 #### Using wget
 
     mkdir export-flickr
-    wget -O import/import.py https://raw.github.com/openphoto/import/master/import.py --no-check-certificate
+    wget -O import/import.py https://raw.github.com/photo/import/master/import.py --no-check-certificate
 
 #### Using file->save
 
 Click the link below and save the file into a directory named `import`.
 
-https://raw.github.com/openphoto/import/master/import.py
+https://raw.github.com/photo/import/master/import.py
 
 <a name="running"></a>
 ### Running the script
