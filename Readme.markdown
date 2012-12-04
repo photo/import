@@ -32,11 +32,11 @@ The only dependency you need the `openphoto` module ([repository on Github](http
 
 #### Using git
 
-    git clone git@github.com:photo/import.git
+    git clone git://github.com/photo/import.git
 
 #### Using wget
 
-    mkdir export-flickr
+    mkdir import
     wget -O import/import.py https://raw.github.com/photo/import/master/import.py --no-check-certificate
 
 #### Using file->save
