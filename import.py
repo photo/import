@@ -74,14 +74,40 @@ if __name__ == '__main__':
   import argparse
 
   parser = argparse.ArgumentParser(description='Import photos into an OpenPhoto instance')
-  parser.add_argument('--host', required=True)
-  parser.add_argument('--consumer-key', required=True)
-  parser.add_argument('--consumer-secret', required=True)
-  parser.add_argument('--token', required=True)
-  parser.add_argument('--token-secret', required=True)
+  parser.add_argument('--config', help="Configuration file to use")
+  parser.add_argument('--host', help="Hostname of the OpenPhoto server (overrides config_file)")
+  parser.add_argument('--consumer-key')
+  parser.add_argument('--consumer-secret')
+  parser.add_argument('--token')
+  parser.add_argument('--token-secret')
   config = parser.parse_args()
 
-  client = OpenPhoto(config.host, config.consumer_key, config.consumer_secret, config.token, config.token_secret)
+# Host option overrides config file settings
+  if config.host:
+    client = OpenPhoto(host=config.host, consumer_key=config.consumer_key,
+                       consumer_secret=config.consumer_secret,
+                       token=config.token, token_secret=config.token_secret)
+  else:
+    try:
+      client = OpenPhoto(config_file=config.config)
+    except IOError as error:
+      print error
+      print
+      print "You must create a configuration file with the following contents:"
+      print "    host = your.host.com"
+      print "    consumerKey = your_consumer_key"
+      print "    consumerSecret = your_consumer_secret"
+      print "    token = your_access_token"
+      print "    tokenSecret = your_access_token_secret"
+      print
+      print "To get your credentials:"
+      print " * Log into your Trovebox site"
+      print " * Click the arrow on the top-right and select 'Settings'."
+      print " * Click the 'Create a new app' button."
+      print " * Click the 'View' link beside the newly created app."
+      print
+      print error
+      sys.exit(1)
 
   # check if a processed and errored directories exist else create them
   createDirectorySafe('processed')
