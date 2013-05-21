@@ -39,7 +39,7 @@ def import_into_openphoto(client):
       shutil.move(infile, "errored/%s" % i)
 
       params = json.loads(json_str)
-      resp = client.post('/photo/upload.json', params)
+      resp = client.post('/photo/upload.json', **params)
       result = json.loads(resp)
       if result['code'] == 201:
         print "OK"
