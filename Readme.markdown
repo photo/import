@@ -45,6 +45,26 @@ Click the link below and save the file into a directory named `import`.
 
 https://raw.github.com/photo/import/master/import.py
 
+<a name="credentials"></a>
+### Credentials
+
+For full access to your photos, you need to create the following config file in ``~/.config/openphoto/default``
+
+    # ~/.config/openphoto/default
+    host = your.host.com
+    consumerKey = your_consumer_key
+    consumerSecret = your_consumer_secret
+    token = your_access_token
+    tokenSecret = your_access_token_secret
+
+The ``config`` switch lets you specify a different config file.
+
+To get your credentials:
+ * Log into your Trovebox site
+ * Click the arrow on the top-right and select 'Settings'
+ * Click the 'Create a new app' button
+ * Click the 'View' link beside the newly created app
+
 <a name="running"></a>
 ### Running the script
 
