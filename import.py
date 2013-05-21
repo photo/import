@@ -8,6 +8,7 @@ import json
 import shutil
 import sys
 import time
+import logging
 
 # import flickrapi
 # `easy_install flickrapi` or `pip install flickrapi`
@@ -80,7 +81,11 @@ if __name__ == '__main__':
   parser.add_argument('--consumer-secret')
   parser.add_argument('--token')
   parser.add_argument('--token-secret')
+  parser.add_argument('--debug', help="Print extra debug information", action="store_true")
   config = parser.parse_args()
+
+  if config.debug:
+    logging.basicConfig(level=logging.DEBUG)
 
 # Host option overrides config file settings
   if config.host:
