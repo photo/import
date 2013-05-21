@@ -73,8 +73,8 @@ Start a terminal and enter the following.
     cd import
     # assuming you ran the export script from flickr copy the fetched files into this repository
     cp -R ../export-flickr/fetched ./
-    # You can follow these instructions to get your consumer-key, secret, etc: https://github.com/openphoto/openphoto-python#credentials
-    python import.py --host=username.openphoto.me --consumer-key=****** --consumer-secret=****** --token=****** --token-secret=******
+    # See above for instructions to get your credentials. The import script reads the config file by default.
+    python import.py 
     
 
 Now the script will start processing your files.
