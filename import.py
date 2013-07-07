@@ -41,8 +41,16 @@ def import_into_openphoto(client):
 
       params = json.loads(json_str)
 
+      # If the upload fails for any reason, an exception will be raised
       try:
         resp = client.post('/photo/upload.json', **params)
+        if resp['code'] != 201:
+          raise OpenPhotoError("Unexpected response code: %d: %s"%
+                               (resp['code'], resp['message']))
+        print "OK"
+        processed = processed + 1
+        shutil.move("errored/%s" % i, "processed/%s" % i)
+
       except OpenPhotoDuplicateError:
         print "DUPLICATE: This photo already exists on the server"
         shutil.move("errored/%s" % i, "duplicates/%s" % i)
@@ -50,11 +58,7 @@ def import_into_openphoto(client):
       except OpenPhotoError as error:
         print "FAILED: %s" % error
         errored = errored + 1
-      else:
-        if resp['code'] == 201:
-          print "OK"
-          processed = processed + 1
-          shutil.move("errored/%s" % i, "processed/%s" % i)
+
       sys.stdout.flush()
 
     end_time = time.time()
