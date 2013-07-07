@@ -12,7 +12,7 @@ import logging
 
 # import flickrapi
 # `easy_install flickrapi` or `pip install flickrapi`
-from openphoto import OpenPhoto
+from openphoto import OpenPhoto, OpenPhotoError, OpenPhotoDuplicateError
 
 from os.path import join, getsize
 
@@ -40,21 +40,21 @@ def import_into_openphoto(client):
       shutil.move(infile, "errored/%s" % i)
 
       params = json.loads(json_str)
-      resp = client.post('/photo/upload.json', **params)
-      result = json.loads(resp)
-      if result['code'] == 201:
-        print "OK"
-        processed = processed + 1
-        shutil.move("errored/%s" % i, "processed/%s" % i)
-      else:
-        code = result['code']
-        message = result['message']
-        print "FAILED: %d - %s" % (code, message)
-        if code == 409 :
-          shutil.move("errored/%s" % i, "duplicates/%s" % i)
-        else:
-          print params
+
+      try:
+        resp = client.post('/photo/upload.json', **params)
+      except OpenPhotoDuplicateError:
+        print "DUPLICATE: This photo already exists on the server"
+        shutil.move("errored/%s" % i, "duplicates/%s" % i)
         errored = errored + 1
+      except OpenPhotoError as error:
+        print "FAILED: %s" % error
+        errored = errored + 1
+      else:
+        if resp['code'] == 201:
+          print "OK"
+          processed = processed + 1
+          shutil.move("errored/%s" % i, "processed/%s" % i)
       sys.stdout.flush()
 
     end_time = time.time()
@@ -64,7 +64,7 @@ def import_into_openphoto(client):
     if total > 0:
       print "Results. Processed: %d. Errored: %d." % (processed, errored)
       print "Imported %d photos at %d photos/minute." % (total, photos_minute)
-  
+
 # create a directory only if it doesn't already exist
 def createDirectorySafe( name ):
   if not os.path.exists(name):
