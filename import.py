@@ -12,13 +12,13 @@ import logging
 
 # import flickrapi
 # `easy_install flickrapi` or `pip install flickrapi`
-from openphoto import OpenPhoto, OpenPhotoError, OpenPhotoDuplicateError
+from trovebox import Trovebox, TroveboxError, TroveboxDuplicateError
 
 from os.path import join, getsize
 
 
 # main program
-def import_into_openphoto(client):
+def import_into_trovebox(client):
 
 
   for root, dirs, files in os.walk('fetched/'):
@@ -45,17 +45,17 @@ def import_into_openphoto(client):
       try:
         resp = client.post('/photo/upload.json', **params)
         if resp['code'] != 201:
-          raise OpenPhotoError("Unexpected response code: %d: %s"%
+          raise TroveboxError("Unexpected response code: %d: %s"%
                                (resp['code'], resp['message']))
         print "OK"
         processed = processed + 1
         shutil.move("errored/%s" % i, "processed/%s" % i)
 
-      except OpenPhotoDuplicateError:
+      except TroveboxDuplicateError:
         print "DUPLICATE: This photo already exists on the server"
         shutil.move("errored/%s" % i, "duplicates/%s" % i)
         errored = errored + 1
-      except OpenPhotoError as error:
+      except TroveboxError as error:
         print "FAILED: %s" % error
         errored = errored + 1
 
@@ -78,9 +78,9 @@ def createDirectorySafe( name ):
 if __name__ == '__main__':
   import argparse
 
-  parser = argparse.ArgumentParser(description='Import photos into an OpenPhoto instance')
+  parser = argparse.ArgumentParser(description='Import photos into an Trovebox instance')
   parser.add_argument('--config', help="Configuration file to use")
-  parser.add_argument('--host', help="Hostname of the OpenPhoto server (overrides config_file)")
+  parser.add_argument('--host', help="Hostname of the Trovebox server (overrides config_file)")
   parser.add_argument('--consumer-key')
   parser.add_argument('--consumer-secret')
   parser.add_argument('--token')
@@ -93,16 +93,17 @@ if __name__ == '__main__':
 
 # Host option overrides config file settings
   if config.host:
-    client = OpenPhoto(host=config.host, consumer_key=config.consumer_key,
-                       consumer_secret=config.consumer_secret,
-                       token=config.token, token_secret=config.token_secret)
+    client = Trovebox(host=config.host, consumer_key=config.consumer_key,
+                      consumer_secret=config.consumer_secret,
+                      token=config.token, token_secret=config.token_secret)
   else:
     try:
-      client = OpenPhoto(config_file=config.config)
+      client = Trovebox(config_file=config.config)
     except IOError as error:
       print error
       print
-      print "You must create a configuration file with the following contents:"
+      print "You must create a configuration file in ~/.config/trovebox/default"
+      print "with the following contents:"
       print "    host = your.host.com"
       print "    consumerKey = your_consumer_key"
       print "    consumerSecret = your_consumer_secret"
@@ -123,4 +124,4 @@ if __name__ == '__main__':
   createDirectorySafe('errored')
   createDirectorySafe('duplicates')
 
-  import_into_openphoto(client)
+  import_into_trovebox(client)
