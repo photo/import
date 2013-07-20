@@ -1,6 +1,6 @@
-Open Photo API / Import companion for export- tools
+Trovebox API / Import companion for export- tools
 =======================
-#### OpenPhoto, a photo service for the masses
+#### Trovebox, a photo service for the masses
 
 ----------------------------------------
 
@@ -15,17 +15,14 @@ This tool processes the files generated from the `export-*` tools such as `expor
 Before you run an import you'll have to first run an export. If you haven't done this already pick the appropriate one below.
 
 * https://github.com/photo/export-flickr
+* https://github.com/photo/export-openphoto
 
 <a name="dependencies"></a>
 ### Getting dependencies
 
-The only dependency you need the `openphoto` module ([repository on Github](https://github.com/photo/openphoto-python)).
+The only dependency you need the `trovebox` module ([repository on Github](https://github.com/photo/openphoto-python)).
 
-    git clone git://github.com/photo/openphoto-python.git
-    cd openphoto-python
-    sudo python setup.py install
-    # you can leave this directory now that it's been installed
-    cd ..
+    sudo pip install trovebox
 
 <a name="download"></a>
 ### Downloading the script
@@ -48,9 +45,9 @@ https://raw.github.com/photo/import/master/import.py
 <a name="credentials"></a>
 ### Credentials
 
-For full access to your photos, you need to create the following config file in ``~/.config/openphoto/default``
+For full access to your photos, you need to create the following config file in ``~/.config/trovebox/default``
 
-    # ~/.config/openphoto/default
+    # ~/.config/trovebox/default
     host = your.host.com
     consumerKey = your_consumer_key
     consumerSecret = your_consumer_secret
@@ -96,7 +93,7 @@ case you try to import a duplicate, the file will instead be moved in `duplicate
 
 ### YAY
 
-You can go to your OpenPhoto site and see all of your Flickr photos with tags, title and description all in tact.
+You can go to your Trovebox site and see all of your Flickr photos with tags, title and description all in tact.
 
 <a name="knownissues"></a>
 ### Known issues
